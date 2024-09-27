@@ -2,28 +2,28 @@
 
 namespace App\Models;
 
-use App\Traits\HasPermissions;
+use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Role extends Model
+class Permission extends Model
 {
     use HasFactory;
-    use HasPermissions;
+    use HasRoles;
 
     protected $fillable = [
         'name',
         'description',
     ];
 
-    public function permissions(): BelongsToMany
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(
-            Permission::class,
+            Role::class,
             'role_has_permissions',
-            'role_id',
             'permission_id',
+            'role_id'
         );
     }
 
@@ -32,8 +32,8 @@ class Role extends Model
         return $this->morphedByMany(
             User::class,
             'model',
-            'model_has_roles',
-            'role_id',
+            'model_has_permissions',
+            'permission_id',
             'model_morph_key'
         );
     }

@@ -17,6 +17,13 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('permissions', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('description')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -24,6 +31,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('permissions');
         Schema::dropIfExists('roles');
     }
 };

@@ -5,7 +5,6 @@ namespace App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
-use Illuminate\Database\Eloquent\Model;
 
 class InviteUser extends CreateRecord
 {
@@ -31,5 +30,10 @@ class InviteUser extends CreateRecord
     protected function getRedirectUrl(): string
     {
         return UserResource::getUrl();
+    }
+
+    protected function authorizeAccess(): void
+    {
+        abort_unless(static::getResource()::canInvite(), 403);
     }
 }
